@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+<h1>Call log</h1>
+
+<ol id="calls"></ol>
+</body>
+
+<script type="text/javascript">
+  window.onload = function () {
+    (function () {
+      var log = function (el) {
+        return function (message) {
+          var listItem = document.createElement('li');
+          var text = document.createTextNode(
+            new Date() + ' - ' + message.event + ': ' + message.from + ' → ' + message.to);
+          listItem.appendChild(text);
+
+          el.appendChild(listItem)
+        }
+      }(document.getElementById('calls'));
+
+      var port = parseInt(location.port) + 1;
+      var ws = new WebSocket('ws://' + location.hostname + ':' + port);
+
+      ws.onopen = function () {
+        document.title = 'online'
+      };
+
+      ws.onclose = function () {
+        document.title = 'offline'
+      };
+
+      ws.onmessage = function (message) {
+        log(JSON.parse(message.data))
+      }
+    })()
+  }
+</script>
+</html>

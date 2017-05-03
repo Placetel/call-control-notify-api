@@ -1,0 +1,13 @@
+{
+  "name": "placetel-api-example-websockets",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Felix Triller",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "path": "^0.12.7",
+    "ws": "^2.3.1"
+  }
+}
