@@ -22,9 +22,9 @@ The following document describes the Call Control- and Notify-API by [Placetel](
 This API is part of our [PROFI](https://www.placetel.de/telefonanlage/preise) product line and comes in two operating modes:
 
 1. a simple notification API, which is enabled per number and notifies your API endpoint about an incoming call, when the call is accepted and when the call ended
-1. an advanced call control mechanism, set up in the routing of each number, which asks your API endpoint how to handle an incoming call
+2. an advanced call control mechanism, set up in the routing of each number, which asks your API endpoint how to handle an incoming call
 
-To enable both APIs, go to *Settings* → *Exsternal APIs* in your PBX and provide the URL of your API endpoint.
+To enable both APIs, go to *Settings* → *External APIs* in your PBX and provide the URL of your API endpoint.
 
 ### Setup Notify
 
@@ -32,9 +32,9 @@ To enable call notification for a number use the checkboxes at *Settings* → *E
 
 ### Setup Call Control
 
-Change the routing of your number to *External API*. The amount of retries to contact your API can raised up to 10, we wait for 100ms after each retry.  
+Change the routing of your number to *External API*. The amount of retries to contact your API can be raised up to 10, we wait for 100ms after each retry.  
 
-Select a backup routing plan which will be used in case of an error and an announcement which will be played before processing your response.
+Select a backup routing plan, which will be used in case of an error and an announcement, which will be played before processing your response.
 
 ## Our POST request
 
@@ -104,7 +104,7 @@ Forward to one or multiple targets. Attributes for `Forward` are
 Attribute | Description
 --------------------------- | ----------------------------------------------------------------------
 `music_on_hold`             | Play music on hold instead of standard ringtone? Default is `false`
-`voicemail`                 | Send call to voicemail if no routing target answerd? Default is `true`
+`voicemail`                 | Send call to voicemail if no routing target answered? Default is `true`
 `voicemail_announcement`    | Mailbox announcement, e.g. `1234`
 `voicemail_as_attachment`   | Send voicemail as MP3 attachment? Default is `false`
 `forward_announcement`      | Play selected announcement and transfer to targets, e.g. `1234`
