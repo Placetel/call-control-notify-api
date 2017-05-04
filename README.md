@@ -2,6 +2,8 @@
 
 The following document describes the Call Control- and Notify-API by [Placetel](https://www.placetel.de).
 
+⚠️ This is still in beta and might change in the near future.
+
 ### Table of contents
 
 1. [Setup](#setup)
