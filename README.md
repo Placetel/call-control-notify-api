@@ -97,7 +97,6 @@ Action              | Description
 [Reject](#reject)   | Coming soon
 [Hangup](#hangup)   | Coming soon
 [Queue](#queue)     | Coming soon
-[IVR](#ivr)         | Coming soon
 
 ### Forward
 
@@ -209,10 +208,6 @@ Coming soon.
 Coming soon.
 
 ### Queue
-
-Coming soon.
-
-### IVR
 
 Coming soon.
 
