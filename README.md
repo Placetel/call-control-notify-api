@@ -204,8 +204,8 @@ Find the SIP username and server on the settings page of your SIP destination.
 Reject an unwanted call or pretend to be busy.
 
 Attribute   | Description
------------ | -----------------------------------------------
-`reason`    | The reject reason for the call, for now: `busy`
+----------- | -------------------------------------------------
+`reason`    | The reject reason for the call, for now: `"busy"`
 
 #### Example 1: Reject call
 ```xml
