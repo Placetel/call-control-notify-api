@@ -94,8 +94,8 @@ Currently, we support the following responses for incoming calls:
 Action              | Description
 ------------------- | --------------------------------------------------------------------------
 [Forward](#forward) | Forward call to one or multiple destinations (SIP users, external numbers)
-[Reject](#reject)   | Coming soon
-[Hangup](#hangup)   | Coming soon
+[Reject](#reject)   | Reject call or pretend to be busy
+[Hangup](#hangup)   | A normal Hang up
 [Queue](#queue)     | Coming soon
 
 ### Forward
@@ -201,11 +201,39 @@ Find the SIP username and server on the settings page of your SIP destination.
 
 ### Reject
 
-Coming soon.
+Reject an unwanted call or pretend to be busy.
+
+Attribute   | Description
+----------- | -----------------------------------------------
+`reason`    | The reject reason for the call, for now: `busy`
+
+#### Example 1: Reject call
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Reject />
+</Response>
+```
+
+#### Example 2: Reject call and pretend to be busy
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Reject reason="busy" />
+</Response>
+```
 
 ### Hangup
 
-Coming soon.
+A simple hangup.
+
+#### Example: Hang up call
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Hangup />
+</Response>
+```
 
 ### Queue
 
