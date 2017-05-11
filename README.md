@@ -15,6 +15,7 @@ The following document describes the Call Control- and Notify-API by [Placetel](
     1. [Forward](#forward)
     1. [Reject](#reject)
     1. [Hangup](#hangup)
+    1. [Queue](#queue)
 1. [Code examples](#code-examples)
 1. [FAQ](#faq)
 1. [Contributing](#contributing)
@@ -96,7 +97,9 @@ Action              | Description
 [Forward](#forward) | Forward call to one or multiple destinations (SIP users, external numbers)
 [Reject](#reject)   | Reject call or pretend to be busy
 [Hangup](#hangup)   | A normal Hang up
-[Queue](#queue)     | Coming soon
+[Queue](#queue)     | Send call to a [Contact Center] Queue<sup>*</sup>
+
+<sup>*</sup> Only available with [Contact Center] option booked.
 
 ### Forward
 
@@ -237,7 +240,19 @@ A simple hangup.
 
 ### Queue
 
-Coming soon.
+Send call to a [Contact Center] Queue.
+
+Attribute   | Description
+----------- | -----------------------------------------
+`queue_id`  | The ID of the queue, required, e.g. `123`
+
+#### Example: Send to queue
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Queue queue_id="123" />
+</Response>
+```
 
 ## Code examples
 
@@ -262,3 +277,4 @@ For improvements, feature requests or bug reports, please use [GitHub Issues](..
 ![Placetel](https://www.placetel.de/content/placetel_logo_260x54.png)
 
 [pull request]: ../../pulls
+[Contact Center]: https://www.placetel.de/telefonanlage/funktionen/contact-center
