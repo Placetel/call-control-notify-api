@@ -74,7 +74,7 @@ Parameter   | Description
 `to`        | The called number (e.g. `"022129191999"`)
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `type`      | The cause of the hangup (see [table](#hangup-types) below)
-`duration`  | Duration of *accepted* in seconds, `0` for not accepted calls
+`duration`  | Duration of *accepted* call in seconds, `0` for not accepted calls
 
 #### Hangup types
 
