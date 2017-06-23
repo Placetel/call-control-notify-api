@@ -266,7 +266,7 @@ Attribute   | Description
 
 Want to add your example? Open a [pull request]!
 
-## Securtiy
+## Security
 
 ### Authentication
 
