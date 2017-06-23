@@ -271,6 +271,12 @@ Want to add your example? Open a [pull request]!
 
 The API itself is provided free of charge; the usual connection charges may apply.
 
+## Securtiy
+
+### Authentication
+
+For HTTP Basic Authentication include your username and passwort within your API URL. For example: `https://username:password@example.com`.
+
 ## Contributing
 
 For improvements, feature requests or bug reports, please use [GitHub Issues](../../issues) or send us a [pull request].
