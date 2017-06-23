@@ -17,6 +17,7 @@ The following document describes the Call Control- and Notify-API by [Placetel](
     1. [Hangup](#hangup)
     1. [Queue](#queue)
 1. [Code examples](#code-examples)
+1. [Security](#security)
 1. [FAQ](#faq)
 1. [Contributing](#contributing)
 
@@ -265,17 +266,17 @@ Attribute   | Description
 
 Want to add your example? Open a [pull request]!
 
-## FAQ
-
-#### How much does it cost?
-
-The API itself is provided free of charge; the usual connection charges may apply.
-
 ## Securtiy
 
 ### Authentication
 
 For HTTP Basic Authentication include your username and passwort within your API URL. For example: `https://username:password@example.com`.
+
+## FAQ
+
+#### How much does it cost?
+
+The API itself is provided free of charge; the usual connection charges may apply.
 
 ## Contributing
 
