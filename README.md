@@ -23,7 +23,7 @@ The following document describes the Call Control- and Notify-API by [Placetel](
 
 This API is part of our [PROFI](https://www.placetel.de/telefonanlage/preise) product line and comes in two operating modes:
 
-1. a simple notification API, which is enabled per number and notifies your API endpoint about outgoing and incoming calls, when calls are accepted (only for incoming calls) and when a call ended
+1. a simple notification API, which notifies your API endpoint about new incoming and outgoing calls, when calls are accepted (only for incoming calls) and when a call ends
 2. an advanced call control mechanism, set up in the routing of each number, which asks your API endpoint how to handle an incoming call
 
 To enable both APIs, go to *Settings* → *External APIs* in your PBX and provide the URL of your API endpoint.
@@ -79,6 +79,16 @@ Parameter   | Description
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `direction` | `"in"`
 
+### Outgoing call
+
+Parameter   | Description
+----------- | -----------------------------------------------------------
+`event`     | `"OutgoingCall"`
+`from`      | The calling SIP user (e.g. `"7777abcdefg@fpbx.de"`)
+`to`        | The called number (e.g. `"022129191999"`)
+`call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
+`direction` | `"out"`
+
 ### Call accepted
 
 Only for incoming calls.
@@ -121,7 +131,7 @@ Type          | Description
 
 ## Your XML response
 
-Your XML response is used to determine what to do with the *incoming call*.
+Your XML response is used to determine what to do with the **incoming call**.
 We only process your response when the routing for your number is set to *External API*. 
 Make sure your response's `Content-Type` header is set to `application/xml`.
 
