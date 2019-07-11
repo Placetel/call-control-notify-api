@@ -23,14 +23,16 @@ The following document describes the Call Control- and Notify-API by [Placetel](
 
 This API is part of our [PROFI](https://www.placetel.de/telefonanlage/preise) product line and comes in two operating modes:
 
-1. a simple notification API, which is enabled per number and notifies your API endpoint about an incoming call, when the call is accepted and when the call ended
+1. a simple notification API, which is enabled per number and notifies your API endpoint about outgoing and incoming calls, when calls are accepted (only for incoming calls) and when a call ended
 2. an advanced call control mechanism, set up in the routing of each number, which asks your API endpoint how to handle an incoming call
 
 To enable both APIs, go to *Settings* → *External APIs* in your PBX and provide the URL of your API endpoint.
 
 ### Setup Notify
 
-To enable call notification for a number use the checkboxes at *Settings* → *Exsternal APIs* or the the Checkbox in the *Miscellaneous*-tab in the routing settings of each number.  
+Call notifications for incoming calls are activated per phone number. Use the checkboxes on *Settings* → *Exsternal APIs* or the the Checkbox in the *Miscellaneous*-tab in the routing settings of each number.
+
+Currently there are notifications for all outgoing calls. 
 
 ### Setup Call Control
 
@@ -75,8 +77,11 @@ Parameter   | Description
 `from`      | The calling number (e.g. `"022129191999"` or `"anonymous"`)
 `to`        | The called number (e.g. `"022129191999"`)
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
+`direction` | `"in"`
 
 ### Call accepted
+
+Only for incoming calls.
 
 Parameter   | Description
 ----------- | -----------------------------------------------------------
@@ -85,6 +90,7 @@ Parameter   | Description
 `to`        | The called number (e.g. `"022129191999"`)
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `peer`      | The SIP peer which answered the call, e.g. `"7777abcdefg@fpbx.de"`
+`direction` | `"in"`
 
 ### Call hangup
 
@@ -96,19 +102,26 @@ Parameter   | Description
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `type`      | The cause of the hangup (see [table](#hangup-types) below)
 `duration`  | Duration of *accepted* call in seconds, `0` for not accepted calls
+`direction` | `"in"` or `"out"` 
 
 #### Hangup types
 
-Type        | Description
------------ | ---------------------------------------------------
-`voicemail` | The call was sent to voicemail
-`missed`    | Nobody picked up the call
-`blocked`   | The call was blocked
-`accepted`  | The call was accepted and ended by hangup
+Type          | Description
+------------- | ---------------------------------------------------
+`voicemail`   | The call was sent to voicemail
+`missed`      | Nobody picked up the call
+`blocked`     | The call was blocked
+`accepted`    | The call was accepted and ended by hangup
+`busy`        | The called number was busy
+`canceled`    | The call was canceled by the caller
+`unavailable` | Destination is offline / unavailable
+`congestion`  | There was a problem
+
+`busy`, `canceled`, `unavailable` and `congestion` are limited to outbound calls.
 
 ## Your XML response
 
-Your XML response is used to determine what to do with the incoming call. 
+Your XML response is used to determine what to do with the *incoming call*.
 We only process your response when the routing for your number is set to *External API*. 
 Make sure your response's `Content-Type` header is set to `application/xml`.
 
