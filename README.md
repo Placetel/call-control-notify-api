@@ -151,12 +151,12 @@ Action              | Description
 Forward to one or multiple targets. Attributes for `Forward` are
 
 Attribute | Description
---------------------------- | ----------------------------------------------------------------------
+--------------------------- | --------------------------------------------------------------------------------
 `music_on_hold`             | Play music on hold instead of standard ringtone? Default is `false`
 `voicemail`                 | Send call to voicemail if no routing target answered? Default is `true`
-`voicemail_announcement`    | Mailbox announcement, e.g. `1234`
+`voicemail_announcement`    | ID of mailbox announcement / prompt, e.g. `1234`
 `voicemail_as_attachment`   | Send voicemail as MP3 attachment? Default is `false`
-`forward_announcement`      | Play selected announcement and transfer to targets, e.g. `1234`
+`forward_announcement`      | Play selected announcement and transfer to targets, see `voicemail_announcement`
 
 Attributes for each `Target`.
 
@@ -317,9 +317,13 @@ For HTTP Basic Authentication include your username and passwort within your API
 
 ## FAQ
 
+#### Where to find the ID of my announcement prompt / queue / SIP destination?
+
+You will find the ID in the edit form of each record in your Placetel PBX. In addition, you can use the new [Placetel API](https://api.placetel.de/v2/docs/).
+
 #### How much does it cost?
 
-The API itself is provided free of charge; the usual connection charges may apply.
+The API itself is provided free of charge; the usual connection fees may apply.
 
 ## Contributing
 
