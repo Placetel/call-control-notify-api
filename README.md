@@ -26,7 +26,7 @@ This API is part of our [PROFI](https://www.placetel.de/telefonanlage/preise) pr
 1. a simple notification API, which notifies your API endpoint about new incoming and outgoing calls, when calls are accepted (only for incoming calls) and when a call ends
 2. an advanced call control mechanism, set up in the routing of each number, which asks your API endpoint how to handle an incoming call
 
-To enable both APIs, go to *Settings* → *External APIs* in your PBX and provide the URL of your API endpoint.
+To enable both APIs, go to *Settings* → *External APIs* in the Placetel Webportal and provide the URL of your API endpoint.
 
 ### Setup Notify
 
@@ -85,7 +85,7 @@ Parameter   | Description
 ----------- | -----------------------------------------------------------
 `event`     | `"OutgoingCall"`
 `from`      | The calling SIP user (e.g. `"7777abcdefg@fpbx.de"`)
-`to`        | The called number (e.g. `"022129191999"`)
+`to`        | The called number (e.g. `"022129191999"`, or `"23"`)
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `direction` | `"out"`
 
@@ -112,7 +112,9 @@ Parameter   | Description
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `type`      | The cause of the hangup (see [table](#hangup-types) below)
 `duration`  | Duration of *accepted* call in seconds, `0` for not accepted calls
-`direction` | `"in"` or `"out"` 
+`direction` | `"in"` or `"out"`
+
+`from` and `to` for outgoing internal calls are the SIP IDs of caller and callee.
 
 #### Hangup types
 
@@ -319,7 +321,7 @@ For HTTP Basic Authentication include your username and passwort within your API
 
 #### Where to find the ID of my announcement prompt / queue / SIP destination?
 
-You will find the ID in the edit form of each record in your Placetel PBX. In addition, you can use the new [Placetel API](https://api.placetel.de/v2/docs/).
+You will find the ID in the edit form of each record in the Placetel Webportal. In addition, you can use the new [Placetel API](https://api.placetel.de/v2/docs/).
 
 #### How much does it cost?
 
