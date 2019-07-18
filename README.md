@@ -23,14 +23,16 @@ The following document describes the Call Control- and Notify-API by [Placetel](
 
 This API is part of our [PROFI](https://www.placetel.de/telefonanlage/preise) product line and comes in two operating modes:
 
-1. a simple notification API, which is enabled per number and notifies your API endpoint about an incoming call, when the call is accepted and when the call ended
+1. a simple notification API, which notifies your API endpoint about new incoming and outgoing calls, when calls are accepted (only for incoming calls) and when a call ends
 2. an advanced call control mechanism, set up in the routing of each number, which asks your API endpoint how to handle an incoming call
 
-To enable both APIs, go to *Settings* → *External APIs* in your PBX and provide the URL of your API endpoint.
+To enable both APIs, go to *Settings* → *External APIs* in the Placetel Webportal and provide the URL of your API endpoint.
 
 ### Setup Notify
 
-To enable call notification for a number use the checkboxes at *Settings* → *Exsternal APIs* or the the Checkbox in the *Miscellaneous*-tab in the routing settings of each number.  
+Call notifications for incoming calls are activated per phone number. Use the checkboxes on *Settings* → *Exsternal APIs* or the the Checkbox in the *Miscellaneous*-tab in the routing settings of each number.
+
+Currently there are notifications for all outgoing calls. 
 
 ### Setup Call Control
 
@@ -75,8 +77,21 @@ Parameter   | Description
 `from`      | The calling number (e.g. `"022129191999"` or `"anonymous"`)
 `to`        | The called number (e.g. `"022129191999"`)
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
+`direction` | `"in"`
+
+### Outgoing call
+
+Parameter   | Description
+----------- | -----------------------------------------------------------
+`event`     | `"OutgoingCall"`
+`from`      | The calling SIP user (e.g. `"7777abcdefg@fpbx.de"`)
+`to`        | The called number (e.g. `"022129191999"`, or `"23"`)
+`call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
+`direction` | `"out"`
 
 ### Call accepted
+
+Only for incoming calls.
 
 Parameter   | Description
 ----------- | -----------------------------------------------------------
@@ -85,6 +100,7 @@ Parameter   | Description
 `to`        | The called number (e.g. `"022129191999"`)
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `peer`      | The SIP peer which answered the call, e.g. `"7777abcdefg@fpbx.de"`
+`direction` | `"in"`
 
 ### Call hangup
 
@@ -96,19 +112,28 @@ Parameter   | Description
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `type`      | The cause of the hangup (see [table](#hangup-types) below)
 `duration`  | Duration of *accepted* call in seconds, `0` for not accepted calls
+`direction` | `"in"` or `"out"`
+
+`from` and `to` for outgoing internal calls are the SIP IDs of caller and callee.
 
 #### Hangup types
 
-Type        | Description
------------ | ---------------------------------------------------
-`voicemail` | The call was sent to voicemail
-`missed`    | Nobody picked up the call
-`blocked`   | The call was blocked
-`accepted`  | The call was accepted and ended by hangup
+Type          | Description
+------------- | ---------------------------------------------------
+`voicemail`   | The call was sent to voicemail
+`missed`      | Nobody picked up the call
+`blocked`     | The call was blocked
+`accepted`    | The call was accepted and ended by hangup
+`busy`        | The called number was busy
+`canceled`    | The call was canceled by the caller
+`unavailable` | Destination is offline / unavailable
+`congestion`  | There was a problem
+
+`busy`, `canceled`, `unavailable` and `congestion` are limited to outbound calls.
 
 ## Your XML response
 
-Your XML response is used to determine what to do with the incoming call. 
+Your XML response is used to determine what to do with the **incoming call**.
 We only process your response when the routing for your number is set to *External API*. 
 Make sure your response's `Content-Type` header is set to `application/xml`.
 
@@ -128,12 +153,12 @@ Action              | Description
 Forward to one or multiple targets. Attributes for `Forward` are
 
 Attribute | Description
---------------------------- | ----------------------------------------------------------------------
+--------------------------- | --------------------------------------------------------------------------------
 `music_on_hold`             | Play music on hold instead of standard ringtone? Default is `false`
 `voicemail`                 | Send call to voicemail if no routing target answered? Default is `true`
-`voicemail_announcement`    | Mailbox announcement, e.g. `1234`
+`voicemail_announcement`    | ID of mailbox announcement / prompt, e.g. `1234`
 `voicemail_as_attachment`   | Send voicemail as MP3 attachment? Default is `false`
-`forward_announcement`      | Play selected announcement and transfer to targets, e.g. `1234`
+`forward_announcement`      | Play selected announcement and transfer to targets, see `voicemail_announcement`
 
 Attributes for each `Target`.
 
@@ -294,9 +319,13 @@ For HTTP Basic Authentication include your username and passwort within your API
 
 ## FAQ
 
+#### Where to find the ID of my announcement prompt / queue / SIP destination?
+
+You will find the ID in the edit form of each record in the Placetel Webportal. In addition, you can use the new [Placetel API](https://api.placetel.de/v2/docs/).
+
 #### How much does it cost?
 
-The API itself is provided free of charge; the usual connection charges may apply.
+The API itself is provided free of charge; the usual connection fees may apply.
 
 ## Contributing
 
