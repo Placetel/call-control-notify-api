@@ -7,6 +7,7 @@ The following document describes the Call Control- and Notify-API by [Placetel](
 1. [Setup](#setup)
 1. [Our POST request](#our-post-request)
     1. [Incoming call](#incoming-call)
+    1. [Outgoing call](#outgoing-call)
     1. [Call accepted](#call-accepted)
     1. [Call hangup](#call-hangup)
 1. [Your XML response](#your-xml-response)
