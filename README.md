@@ -31,9 +31,9 @@ To enable both APIs, go to *Settings* → *External APIs* in the Placetel Webpor
 
 ### Setup Notify
 
-Call notifications for incoming calls are activated per phone number. Use the checkboxes on *Settings* → *Exsternal APIs* or the the Checkbox in the *Miscellaneous*-tab in the routing settings of each number.
+Call notifications are activated per phone number. Use the checkboxes on *Settings* → *Exsternal APIs* or the the Checkbox in the *Miscellaneous*-tab in the routing settings of each number.
 
-Currently there are notifications for all outgoing calls. 
+Outgoing calls are only notified if the caller ID of the used SIP user is set and the number is enabled for notifications.
 
 ### Setup Call Control
 
