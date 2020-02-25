@@ -85,8 +85,9 @@ Parameter   | Description
 Parameter   | Description
 ----------- | -----------------------------------------------------------
 `event`     | `"OutgoingCall"`
-`from`      | The calling SIP user (e.g. `"7777abcdefg@fpbx.de"`)
+`from`      | The caller id of the calling party (anonymous calls are not notified)
 `to`        | The called number (e.g. `"022129191999"`, or `"23"`)
+`peer`      | The calling SIP user (e.g. `"7777abcdefg@fpbx.de"`)
 `call_id`   | The ID of the call, `sha256` in hex presentation, e.g. `"f4591ba315d81671d7a06c2a3b4f963dafd119de39cb26edd8a6476676b2f447"`
 `direction` | `"out"`
 
