@@ -166,7 +166,7 @@ Attributes for each `Target`.
 
 Attribute   | Description
 ----------- | -----------------------------------------------
-`ringtime`  | Ringtime in sections, optional, default is `60`
+`ringtime`  | Ringtime in seconds, optional, default is `60`
 
 #### Example 1: Forward call to one external number
 ```xml
