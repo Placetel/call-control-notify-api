@@ -14,6 +14,9 @@ The following document describes the Call Control- and Notify-API by [Placetel](
     1. [Forward](#forward)
     1. [Reject](#reject)
     1. [Hangup](#hangup)
+    1. [Prompt](#prompt)
+    1. [Group](#group)
+    1. [RoutingPlan](#routing-plan)
     1. [Queue](#queue)
 1. [Code examples](#code-examples)
 1. [Security](#security)
@@ -141,12 +144,15 @@ Make sure your response's `Content-Type` header is set to `application/xml`.
 
 Currently, we support the following responses for incoming calls:
 
-Action              | Description
-------------------- | --------------------------------------------------------------------------
-[Forward](#forward) | Forward call to one or multiple destinations (SIP users, external numbers)
-[Reject](#reject)   | Reject call or pretend to be busy
-[Hangup](#hangup)   | A normal Hang up
-[Queue](#queue)     | Send call to a [Contact Center] Queue<sup>*</sup>
+Action                          | Description
+------------------------------- | --------------------------------------------------------------------------
+[Forward](#forward)             | Forward call to one or multiple destinations (SIP users, external numbers)
+[Reject](#reject)               | Reject call or pretend to be busy
+[Hangup](#hangup)               | A normal Hang up
+[Prompt](#prompt)               | Play a prompt and hang up
+[Group](#group)                 | Redirect call to a group
+[RoutingPlan](#routing-plan)    | Redirect call to a routing plan
+[Queue](#queue)                 | Send call to a [Contact Center] Queue<sup>*</sup>
 
 <sup>*</sup> Only available with [Contact Center] option booked.
 
@@ -154,19 +160,19 @@ Action              | Description
 
 Forward to one or multiple targets. Attributes for `Forward` are
 
-Attribute | Description
---------------------------- | --------------------------------------------------------------------------------
-`music_on_hold`             | Play music on hold instead of standard ringtone? Default is `false`
-`voicemail`                 | Send call to voicemail if no routing target answered? Default is `true`
-`voicemail_announcement`    | ID of mailbox announcement / prompt, e.g. `1234`
-`voicemail_as_attachment`   | Send voicemail as MP3 attachment? Default is `false`
-`forward_announcement`      | Play selected announcement and transfer to targets, see `voicemail_announcement`
+Attribute                   | Required  | Default   | Description
+--------------------------- | --------- | --------- | --------------------------------------------------------------------------------
+`music_on_hold`             | no        | `false`   | Play music on hold instead of standard ringtone?
+`voicemail`                 | no        | `true`    | Send call to voicemail if no routing target answered?
+`voicemail_announcement`    | no        |           | ID of mailbox announcement / prompt, e.g. `1234`
+`voicemail_as_attachment`   | no        | `false`   | Send voicemail as MP3 attachment?
+`forward_announcement`      | no        |           | Play selected announcement and transfer to targets, see `voicemail_announcement`
 
 Attributes for each `Target`.
 
-Attribute   | Description
------------ | -----------------------------------------------
-`ringtime`  | Ringtime in seconds, optional, default is `60`
+Attribute   | Required  | Default   | Description
+----------- | --------- | --------- | -------------------
+`ringtime`  | no        | `60`      | Ringtime in seconds
 
 #### Example 1: Forward call to one external number
 ```xml
@@ -255,9 +261,9 @@ Find the SIP username and server on the settings page of your SIP destination.
 
 Reject an unwanted call or pretend to be busy.
 
-Attribute   | Description
------------ | -------------------------------------------------
-`reason`    | The reject reason for the call, for now: `"busy"`
+Attribute   | Required  | Description
+----------- | --------- | -------------------------------------------------
+`reason`    | no        | The reject reason for the call, for now: `"busy"`
 
 #### Example 1: Reject call
 ```xml
@@ -287,19 +293,93 @@ A simple hangup.
 </Response>
 ```
 
+### Prompt
+
+Play a prompt and hang up.
+
+Attribute   | Required | Description
+----------- | ---------| ------------------------------------------
+`id`        | yes      | The ID of the prompt, required, e.g. `123`
+
+#### Example: play prompt by ID and hang up
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Prompt id="123" />
+</Response>
+```
+
+### Group
+
+Send call to a group.
+
+Attribute                   | Required  | Default       | Description
+--------------------------- | --------- | ------------- |---------------------------------------------------------------------------
+`id`                        | yes       |               | ID of the group, required, e.g. `123`
+`ringtime`                  | no        | `40`          | Ring time before handling backup, `10` to `60` seconds
+`backup_behaviour`          | no        | `"mailbox"`   | `"mailbox"` or `"routing_object"`
+`backup_routing_object`     | no        |               | ID of the routing object for backup handling
+`voicemail_announcement`    | no        |               | ID of the voicemail announcement / prompt, e.g. `123`
+`voicemail_as_attachment`   | no        | `false`       | Send voicemail as MP3 attachment?
+`forward_announcement`      | no        |               | ID of the announcement / prompt before forwarding to the group, e.g. `123`
+`music_on_hold`             | no        | `false`       | Play music on hold instead of standard ringtone?
+
+#### Example: Send to group
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Group id="123" />
+</Response>
+```
+
+### Routing Plan
+
+Send call to a routing plan which will be evaluated as usual. If no routing
+object is active, the call will be ended. If you want a fallback for this case
+provide a forward fallback.
+
+Attribute | Required  | Description
+--------- | --------- | ----------------------------------
+`id`      | yes       | ID of the routing plan, e.g. `123`
+
+Fallback is explained in [Forward](#forward).
+
+#### Example 1: Send to routing plan
+
+```xml
+<Response>
+  <RoutingPlan id="123" />
+</Response>
+```
+
+#### Example 2: Send to routing plan with fallback
+
+```xml
+<Response>
+  <RoutingPlan id="123">
+    <Forward>
+        <Target>
+            <Number>7777abcdefg@fpbx.de</Number>
+            <Number>022129191999</Number>
+        </Target>
+    </Forward>
+  </RoutingPlan>
+</Response>
+```
+
 ### Queue
 
 Send call to a [Contact Center] Queue.
 
-Attribute   | Description
------------ | -----------------------------------------
-`queue_id`  | The ID of the queue, required, e.g. `123`
+Attribute   | Required  | Description
+----------- | --------- | -------------------------------
+`id`        | yes       | The ID of the queue, e.g. `123`
 
 #### Example: Send to queue
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Queue queue_id="123" />
+    <Queue id="123" />
 </Response>
 ```
 
@@ -321,7 +401,7 @@ For HTTP Basic Authentication include your username and passwort within your API
 
 ## FAQ
 
-#### Where to find the ID of my announcement prompt / queue / SIP destination?
+#### Where to find the ID of my announcement prompt / queue / group / SIP destination?
 
 You will find the ID in the edit form of each record in the Placetel Webportal. In addition, you can use the new [Placetel API](https://api.placetel.de/v2/docs/).
 
