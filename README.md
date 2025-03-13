@@ -1,4 +1,4 @@
-# Placetel Call Control-/Notify-API
+﻿# Placetel Call Control-/Notify-API
 
 The following document describes the Call Control- and Notify-API by [Placetel](https://www.placetel.de).
 
@@ -390,6 +390,7 @@ Attribute   | Required  | Description
 * [PHP](examples/php)
 * [Python](examples/python)
 * [Java](examples/java)
+* [Delphi](examples/delphi)
 
 Want to add your example? Open a [pull request]!
 
