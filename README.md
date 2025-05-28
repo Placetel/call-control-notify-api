@@ -61,12 +61,12 @@ digest = OpenSSL::Digest.new('sha256')
 signature = OpenSSL::HMAC.hexdigest(digest, secret, payload)
 ```
 
-For example a secret `12345` with a given payload `call_id=4a4cbb39578170aed9a2761a7bec8c7e704a541f52291ef603d6f5f152980c3c&event=CallAccepted&from=0123456789&to=0987654321` will result in:
+For example a secret `12345` with a given payload `call_id=4a4cbb39578170aed9a2761a7bec8c7e704a541f52291ef603d6f5f152980c3c&direction=in&event=CallAccepted&from=0123456789&to=0987654321` will result in:
 ```
 2.5.1 :005 > digest = OpenSSL::Digest.new('sha256')
  => #<OpenSSL::Digest: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855>
 2.5.1 :006 > signature = OpenSSL::HMAC.hexdigest(digest, secret, payload)
- => "c4f823c5b8806432fe2b83b1fc2ee714422e0cdfb4b5129152a7d0bbcd7792d0"
+ => "a16d490518344c33afa96158d115b48a26a250da6b8c6bc1d6dedb0a47d13eaa"
 ```
 
 In order to restrict access to your API endpoint, you may use a simple basic-auth in the URL defined [in your external api settings](https://web.placetel.de/settings/external_api): `https://admin:password@your.end.point/callback`.
