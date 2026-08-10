@@ -61,7 +61,7 @@ digest = OpenSSL::Digest.new('sha256')
 signature = OpenSSL::HMAC.hexdigest(digest, secret, payload)
 ```
 
-For example a secret `12345` with a given payload `call_id=4a4cbb39578170aed9a2761a7bec8c7e704a541f52291ef603d6f5f152980c3c&direction=in&event=CallAccepted&from=0123456789&to=0987654321` will result in:
+For example a secret `THE_SECRET` with a given payload `call_id=4a4cbb39578170aed9a2761a7bec8c7e704a541f52291ef603d6f5f152980c3c&direction=in&event=CallAccepted&from=0123456789&to=0987654321` will result in:
 ```
 2.5.1 :005 > digest = OpenSSL::Digest.new('sha256')
  => #<OpenSSL::Digest: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855>
